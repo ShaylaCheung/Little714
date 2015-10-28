@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">BabyFun</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_animal_choice">AnimalChoice</string>
-    <string name="title_activity_animal__learn_">Animal_Learn_Activity</string>
-    <string name="title_activity_animal__test">Animal_Test</string>
-    <string name="title_activity_music">MusicActivity</string>
-    <string name="title_activity_number_choice">NumberChoiceActivity</string>
-</resources>

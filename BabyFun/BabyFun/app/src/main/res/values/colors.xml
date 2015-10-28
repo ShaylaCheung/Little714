@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF4081</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="border">#bfbdbd</color>
+    <color name="login_bg">#f4f4f4</color>
+    <color name="login_text">#B6B6B6</color>
+    <color name="black_green">#1d943a</color>
+    <color name="login_inputtext">#a0a0a0</color>
+    <color name="listview_music_name">#ff1ab3</color>
+    <color name="listview_singer_name">#03609e</color>
+    <color name="listview_id">#f53105</color>
+    <color name="listview_divider">#FF4081</color>
+    <color name="listview_download">#14d8ea</color>
+    <color name="listview_delete">#ef640e</color>
+    <color name="listview_goto">#d1d0d0</color>
+</resources>
