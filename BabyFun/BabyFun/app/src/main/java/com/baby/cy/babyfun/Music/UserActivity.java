@@ -1,5 +1,6 @@
 package com.baby.cy.babyfun.Music;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ public class UserActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)Toolbar toolbar;
 
+    private boolean isLogin;
 
     private List<String> nameList;
 
@@ -40,6 +42,9 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.user_layout);
         ButterKnife.bind(this);
         initView();
+
+        Intent intent = getIntent();
+        isLogin = intent.getBooleanExtra("isLogin",false);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -69,6 +74,7 @@ public class UserActivity extends AppCompatActivity {
         viewPager.setAdapter(new LoginPagerAdapter(getSupportFragmentManager(), loginFragmentList));
         viewPager.setOnPageChangeListener(new ViewPagerListener());
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
 

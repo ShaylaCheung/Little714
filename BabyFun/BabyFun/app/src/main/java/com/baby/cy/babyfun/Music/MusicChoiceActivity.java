@@ -27,9 +27,8 @@ public class MusicChoiceActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.collapsingToolbarLayout)CollapsingToolbarLayout toolbarLayout;
     @Bind(R.id.navigation) NavigationView navigation;
-//    @Bind(R.id.music_local)RoundedImageView music_local;
-//    @Bind(R.id.music_mother)RoundedImageView music_mother;
-//    @Bind(R.id.music_find)RoundedImageView music_find;
+
+    private boolean isLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,11 +107,12 @@ public class MusicChoiceActivity extends AppCompatActivity {
     @OnClick(R.id.user_image)
     public void login_or_not(){
         //已经登录了
-        if(!true){
-
+        if(isLogin){
+            Toast.makeText(this,"您已登录",Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this,"请先注册",Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(MusicChoiceActivity.this,UserActivity.class);
+//            intent.putExtra("isLogin",false);
             startActivity(intent);
         }
     }
