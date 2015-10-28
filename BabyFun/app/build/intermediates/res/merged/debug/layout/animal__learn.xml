@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fce4ec">
+    <ImageView
+        android:id="@+id/animal_kinds"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:layout_margin="50dp"
+        android:scaleType="fitXY"
+        android:background="@mipmap/animal_demo_1"/>
+    <TextView
+        android:id="@+id/animal_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:text="猫"/>
+    <TextView
+        android:id="@+id/animal_eng_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_above="@id/animal_name"
+        android:layout_alignParentRight="true"
+        android:textSize="40sp"
+        android:layout_marginRight="30dp"
+        android:text="CAT"/>
+</RelativeLayout><!-- From: file:/F:/Android_Studio_Code/BabyFun/app/src/main/res/layout/animal__learn.xml -->
