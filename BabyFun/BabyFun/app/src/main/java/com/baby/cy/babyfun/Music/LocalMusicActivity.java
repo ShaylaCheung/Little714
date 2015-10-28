@@ -43,7 +43,7 @@ public class LocalMusicActivity extends AppCompatActivity {
 
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
-    private String local_music_url = "http://192.168.1.114:8080/BabyFun/api/getAllMusicList";
+    private String local_music_url = "http://192.168.1.99:8080/BabyFun/api/getAllMusicList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,6 @@ public class LocalMusicActivity extends AppCompatActivity {
             }
         });
 
-//        Log.d("Tomato", "context:::::" + this.toString());
-//        initListView();
         getParams(local_music_url);
 
     }
@@ -188,9 +186,6 @@ public class LocalMusicActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Tomato", error.getMessage(), error);
-                byte[] htmlBodyBytes = error.networkResponse.data;
-                Log.d("Tomato", new String(htmlBodyBytes), error);
-
             }
         });
 

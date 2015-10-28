@@ -33,7 +33,6 @@
             android:layout_marginBottom="10dp"
             android:textSize="18dip"
             android:textStyle="bold"
-            android:fontFamily="黑体"
             android:textColor="@color/listview_music_name"
             android:layout_width="wrap_content"
 

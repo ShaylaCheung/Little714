@@ -26,7 +26,6 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="46dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/user_image"
         app:border="true"
         app:border_color="#EEEEEE"
         app:border_width="2dp"
@@ -37,8 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="16dp"
         android:text="ChenYu"
+        android:textSize="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 

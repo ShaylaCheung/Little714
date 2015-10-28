@@ -18,6 +18,7 @@ public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
 
     private int resourceId ;
 
+    private TextView listview_music_id;
     private TextView music_name;
     private TextView singer_name;
 
@@ -34,9 +35,11 @@ public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
 
         music_name = (TextView) view.findViewById(R.id.listview_music_name);
         singer_name = (TextView) view.findViewById(R.id.listview_singer_name);
+        listview_music_id = (TextView)view.findViewById(R.id.listview_music_id);
 
         music_name.setText(musicInfos.getMusic_name());
         singer_name.setText(musicInfos.getSinger_name());
+        listview_music_id.setText(musicInfos.getId()+"");
         return view;
 
     }

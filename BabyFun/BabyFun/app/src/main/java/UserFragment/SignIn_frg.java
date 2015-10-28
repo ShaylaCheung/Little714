@@ -1,5 +1,9 @@
 package UserFragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.baby.cy.babyfun.Bean.User;
+import com.baby.cy.babyfun.Music.MusicChoiceActivity;
+import com.baby.cy.babyfun.Music.UserActivity;
 import com.baby.cy.babyfun.R;
 
 import org.json.JSONObject;
@@ -35,16 +42,24 @@ public class SignIn_frg extends BaseFragment{
     private LinearLayout signin_error_layout;
     private TextView signin_error_message;
     private ViewPager viewPager;
+    private TabLayout login_tab_layout;
 
     public RequestQueue mQueue;
-    private boolean is_signin_success = false;
-    private static final String signin_url = "http://192.168.1.114:8080/BabyFun/api/addUser";
+    private User newUser = null;
+    private static final String signin_url = "http://192.168.1.99:8080/BabyFun/api/addUser";
 
     public SignIn_frg(){
 
         super(R.layout.signin_layout);
 
 
+    }
+    public User getNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(User newUser) {
+        this.newUser = newUser;
     }
 
     @Override
@@ -59,6 +74,7 @@ public class SignIn_frg extends BaseFragment{
         signin_error_layout = (LinearLayout)view.findViewById(R.id.signin_error_layout);
         signin_error_message = (TextView)view.findViewById(R.id.signin_error_message);
         viewPager = (ViewPager)view.findViewById(R.id.login_view_pager);
+        login_tab_layout = (TabLayout)view.findViewById(R.id.login_tab_layout);
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +92,7 @@ public class SignIn_frg extends BaseFragment{
                                 if (password1.equals(password2)) {
 
                                     postLoginParams(signin_url,name,password1,phone);
+
                                 } else {
                                     signin_error_layout.setVisibility(View.VISIBLE);
                                     signin_error_message.setText("密码不一致");
@@ -111,10 +128,17 @@ public class SignIn_frg extends BaseFragment{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        is_signin_success = parseUserJson(response);
-                        if(is_signin_success){
+                        newUser = parseUserJson(response);
+                        if(newUser.getId()!=null){
                             Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
-//                            viewPager.setCurrentItem(0);
+                            Intent intent = new Intent();
+                            intent.putExtra("id",newUser.getId());
+                            intent.putExtra("user_name",newUser.getUser_name());
+                            intent.putExtra("user_password",newUser.getUser_password());
+                            intent.putExtra("user_phone",newUser.getUser_phone());
+                            getActivity().setResult(Activity.RESULT_OK,intent);
+                            getActivity().finish();
+
                         }else{
                             Toast.makeText(getContext(), "注册失败", Toast.LENGTH_SHORT).show();
                         }
@@ -142,16 +166,23 @@ public class SignIn_frg extends BaseFragment{
     }
 
 
-    public boolean parseUserJson(String response){
+    public User parseUserJson(String response){
 
-        boolean signin_statue = false;
+        User j_user = new User();
         try{
             JSONObject jsonObject = new JSONObject(response);
-            signin_statue = jsonObject.getBoolean("signin_state");
+            JSONObject data = jsonObject.getJSONObject("user");
+
+            j_user.setId(data.getLong("id"));
+            j_user.setUser_name(data.getString("user_name"));
+            j_user.setUser_password(data.getString("user_password"));
+            j_user.setUser_password(data.getString("user_phone"));
+
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return signin_statue;
+        Log.d("Tomato","jname:"+j_user.getUser_name());
+        return j_user;
     }
 }

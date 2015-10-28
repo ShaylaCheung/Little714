@@ -1,5 +1,7 @@
 package UserFragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +38,7 @@ public class Login_frg extends BaseFragment {
     private TextView login_error_message;
 
     public RequestQueue mQueue;
-    private String url = "http://192.168.1.114:8080/BabyFun/api/login";
+    private String url = "http://192.168.1.99:8080/BabyFun/api/login";
 
     private User user;
 
@@ -94,6 +96,13 @@ public class Login_frg extends BaseFragment {
                             login_error_message.setText("用户不存在或密码错误");
                         }else{
                             Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            intent.putExtra("id",user.getId());
+                            intent.putExtra("user_name",user.getUser_name());
+                            intent.putExtra("user_password",user.getUser_password());
+                            intent.putExtra("user_phone",user.getUser_phone());
+                            getActivity().setResult(Activity.RESULT_FIRST_USER,intent);
+                            getActivity().finish();
                         }
                     }
                 },
