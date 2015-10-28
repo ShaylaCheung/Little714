@@ -11,30 +11,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_1"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_2"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_3"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_4"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,30 +46,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_5"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_6"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_7"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_8"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"/>
     </LinearLayout>
 
     <LinearLayout
@@ -73,30 +81,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_9"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_10"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_11"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/animal_demo_1"/>
+            android:id="@+id/test_animal_12"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"/>
     </LinearLayout>
 
     <LinearLayout
@@ -104,34 +116,38 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="100dp"
+            android:id="@+id/test_animal_13"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitXY"/>
+        <ImageView
+            android:id="@+id/test_animal_14"
+            android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_15"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitXY"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@mipmap/animal_demo_2"/>
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@mipmap/animal_demo_2"/>
+            android:id="@+id/test_animal_16"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
