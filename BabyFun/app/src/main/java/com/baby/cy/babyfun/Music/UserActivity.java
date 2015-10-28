@@ -117,6 +117,7 @@ public class UserActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int index) {
+            
             viewPager.setCurrentItem(index);
         }
     }
