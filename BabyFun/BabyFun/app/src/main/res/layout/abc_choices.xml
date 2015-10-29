@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fce4ec"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="520dp"
+            android:layout_height="160dp"
+            android:layout_margin="20dp"
+            android:scaleType="fitXY"
+            android:background="@mipmap/abc_choice_logo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="70dp"
+            android:scaleType="fitXY"
+            android:background="@mipmap/abc_choice_baby"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            >
+            <Button
+                android:id="@+id/abc_learn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="80dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/startabc"  />
+
+        </LinearLayout>
+
+<!--         <LinearLayout
+
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="left" >
+            <Button
+                android:id="@+id/animal_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_margin="20dp"
+                android:textSize="16sp"
+                android:background="#00bcd4"
+                android:text="认一认"/>
+        </LinearLayout> -->
+    </LinearLayout>
+
+</LinearLayout>
