@@ -14,6 +14,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import java.util.ArrayList;    
+import java.util.Collections;      
+import java.util.List; 
+import java.util.Iterator;   
+
 public class ABC_Learn_Activity extends Activity {
 
     private int[] characters = {R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,
@@ -142,28 +147,46 @@ public class ABC_Learn_Activity extends Activity {
         int[] sorts = getRandomSort(characters.length);
         //选取该随机序列的前8个作为选项
         for(int c = 0;c < 8;c++){
-        	if(c == 7 && isNeedOne == true){
-        		to_character[c] = right_sorts[count];
-        	}
+        	
         	to_character[c] = sorts[c];
         	if(characters[sorts[c]]==Right_Character){
         		isNeedOne = false;
         	}
-        	
+        	if(c == 7 && isNeedOne == true){
+                to_character[7] = right_sorts[count];
+            }
         }
 
+        //将to_character进行乱序，防止正确答案在最后一个大面积集中
+        ArrayList<Integer> character_list = new ArrayList<Integer>();
+        for (int l = 0;l < to_character.length;l++) {
+            character_list.add(to_character[l]);
+        }
+        Collections.shuffle(character_list);
+        int Csize = character_list.size();
+        // String[] character_s_array = (String[])character_list.toString().toArray(new String[Csize]);
+        Integer[] character_i_array = character_list.toArray(new Integer[Csize]);
+        // for(int i=0;i<8;i++){
+        //     character_i_array[i] = Integer.parseInt(character_s_array[i]);
+        // }
+        // Iterator ite = character_list.iterator();
+        // int temp = 0;
+        // while(ite.hasNext()){
+        //     character_i_array[temp] == ite.next();
+        //     temp++;
+        // }
 
         //找到正确图片答案的位置
-        for(int j= 0;j<to_character.length;j++){
-            if(characters[to_character[j]]==Right_Character){
-                Right_Sort = to_character[j];
+        for(int j= 0;j<character_i_array.length;j++){
+            if(characters[character_i_array[j]]==Right_Character){
+                Right_Sort = character_i_array[j];
             }
         }
 
         //每次的左边图片变化。给正确答案设置tag
-        for(int k=0;k<to_character.length;k++){
-            image[k].setImageResource(characters[to_character[k]]);
-            if(to_character[k] == Right_Sort){
+        for(int k=0;k<character_i_array.length;k++){
+            image[k].setImageResource(characters[character_i_array[k]]);
+            if(character_i_array[k] == Right_Sort){
                 image[k].setTag(Right_Sort);
             }
         }
