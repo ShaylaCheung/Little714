@@ -29,10 +29,11 @@ public class ABC_Learn_Activity extends Activity {
 
     private int Right_Character ;  //正确的图片ID
     private int Right_Sort = 0;   //正确图片在数组中的位置
+    private int to_character[] = null;
 
     private ImageView[] image;
     private int count = 0;
-    private int[] right_sorts;    //动物的排列顺序
+    private int[] right_sorts;    //字母的排列顺序
 
     @Bind(R.id.test_abc_1) ImageView test_image_1;
     @Bind(R.id.test_abc_2) ImageView test_image_2;
@@ -42,43 +43,44 @@ public class ABC_Learn_Activity extends Activity {
     @Bind(R.id.test_abc_6) ImageView test_image_6;
     @Bind(R.id.test_abc_7) ImageView test_image_7;
     @Bind(R.id.test_abc_8) ImageView test_image_8;
-    @Bind(R.id.test_abc_9) ImageView test_image_9;
-    @Bind(R.id.test_abc_10) ImageView test_image_10;
-    @Bind(R.id.test_abc_11) ImageView test_image_11;
-    @Bind(R.id.test_abc_12) ImageView test_image_12;
-    @Bind(R.id.test_abc_13) ImageView test_image_13;
-    @Bind(R.id.test_abc_14) ImageView test_image_14;
-    @Bind(R.id.test_abc_15) ImageView test_image_15;
-    @Bind(R.id.test_abc_16) ImageView test_image_16;
-    @Bind(R.id.test_abc_17) ImageView test_image_17;
-    @Bind(R.id.test_abc_18) ImageView test_image_18;
-    @Bind(R.id.test_abc_19) ImageView test_image_19;
-    @Bind(R.id.test_abc_20) ImageView test_image_20;
-    @Bind(R.id.test_abc_21) ImageView test_image_21;
-    @Bind(R.id.test_abc_22) ImageView test_image_22;
-    @Bind(R.id.test_abc_23) ImageView test_image_23;
-    @Bind(R.id.test_abc_24) ImageView test_image_24;
-    @Bind(R.id.test_abc_25) ImageView test_image_25;
-    @Bind(R.id.test_abc_26) ImageView test_image_26;
+//    @Bind(R.id.test_abc_9) ImageView test_image_9;
+    // @Bind(R.id.test_abc_10) ImageView test_image_10;
+    // @Bind(R.id.test_abc_11) ImageView test_image_11;
+    // @Bind(R.id.test_abc_12) ImageView test_image_12;
+    // @Bind(R.id.test_abc_13) ImageView test_image_13;
+    // @Bind(R.id.test_abc_14) ImageView test_image_14;
+    // @Bind(R.id.test_abc_15) ImageView test_image_15;
+    // @Bind(R.id.test_abc_16) ImageView test_image_16;
+    // @Bind(R.id.test_abc_17) ImageView test_image_17;
+    // @Bind(R.id.test_abc_18) ImageView test_image_18;
+    // @Bind(R.id.test_abc_19) ImageView test_image_19;
+    // @Bind(R.id.test_abc_20) ImageView test_image_20;
+    // @Bind(R.id.test_abc_21) ImageView test_image_21;
+    // @Bind(R.id.test_abc_22) ImageView test_image_22;
+    // @Bind(R.id.test_abc_23) ImageView test_image_23;
+    // @Bind(R.id.test_abc_24) ImageView test_image_24;
+    // @Bind(R.id.test_abc_25) ImageView test_image_25;
+    // @Bind(R.id.test_abc_26) ImageView test_image_26;
 
     @Bind(R.id.abc_test_name) TextView characterName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.abc_learn);
+        setContentView(R.layout.abc_learn_gui);
         ButterKnife.bind(this);
         initABCTestImage();
         setImageBackground(count);
     }
 
-    
+    //生成右下角字母的随机序列
     public int[] getRandomSort(int size){
         int sorts[] = new int[size];
         Random random = new Random();
         sorts[0] = random.nextInt(size);
         for(int i=1;i<size;i++){
             sorts[i]=random.nextInt(size);
+            //比较新生成的随机数是否与前面重复
             for(int j=0;j<i;j++){
                 while(sorts[i]==sorts[j]&&i!=j){
                     i--;
@@ -92,7 +94,7 @@ public class ABC_Learn_Activity extends Activity {
     }
 
     public void initABCTestImage(){
-        image=new ImageView[characters.length];
+        image=new ImageView[8];
         image[0] = test_image_1;
         image[1] = test_image_2;
         image[2] = test_image_3;
@@ -101,46 +103,67 @@ public class ABC_Learn_Activity extends Activity {
         image[5] = test_image_6;
         image[6] = test_image_7;
         image[7] = test_image_8;
-        image[8] = test_image_9;
-        image[9] = test_image_10;
-        image[10] = test_image_11;
-        image[11] = test_image_12;
-        image[12] = test_image_13;
-        image[13] = test_image_14;
-        image[14] = test_image_15;
-        image[15] = test_image_16;
-        image[16] = test_image_17;
-        image[17] = test_image_18;
-        image[18] = test_image_19;
-        image[19] = test_image_20;
-        image[20] = test_image_21;
-        image[21] = test_image_22;
-        image[22] = test_image_23;
-        image[23] = test_image_24;
-        image[24] = test_image_25;
-        image[25] = test_image_26;
-        //得到所有字母出现的随机序列
+//        image[8] = test_image_9;
+        // image[9] = test_image_10;
+        // image[10] = test_image_11;
+        // image[11] = test_image_12;
+        // image[12] = test_image_13;
+        // image[13] = test_image_14;
+        // image[14] = test_image_15;
+        // image[15] = test_image_16;
+        // image[16] = test_image_17;
+        // image[17] = test_image_18;
+        // image[18] = test_image_19;
+        // image[19] = test_image_20;
+        // image[20] = test_image_21;
+        // image[21] = test_image_22;
+        // image[22] = test_image_23;
+        // image[23] = test_image_24;
+        // image[24] = test_image_25;
+        // image[25] = test_image_26;
+        //得到右下角所有字母出现的随机序列
         right_sorts = getRandomSort(character_names.length);
     }
 
     public void setImageBackground(int count){
 
+    	to_character = new int[8];
+    	boolean isNeedOne = true;
+
+    	//Right_Character代表对应右下角显示的字母的ID即R.drawable.
         Right_Character = characters[right_sorts[count]];
         characterName.setText(character_names[right_sorts[count]]);
 
         Log.d("Tomato",character_names[right_sorts[count]]);
 
-        //得到所有动物图片ID的随机序列
+        
+
+        //得到所有字母图片ID的随机序列
         int[] sorts = getRandomSort(characters.length);
-        for(int j= 0;j<sorts.length;j++){
-            if(characters[sorts[j]]==Right_Character){
-                Right_Sort = sorts[j];
+        //选取该随机序列的前8个作为选项
+        for(int c = 0;c < 8;c++){
+        	if(c == 7 && isNeedOne == true){
+        		to_character[c] = right_sorts[count];
+        	}
+        	to_character[c] = sorts[c];
+        	if(characters[sorts[c]]==Right_Character){
+        		isNeedOne = false;
+        	}
+        	
+        }
+
+
+        //找到正确图片答案的位置
+        for(int j= 0;j<to_character.length;j++){
+            if(characters[to_character[j]]==Right_Character){
+                Right_Sort = to_character[j];
             }
         }
 
-        for(int k=0;k<sorts.length;k++){
-            image[k].setImageResource(characters[sorts[k]]);
-            if(sorts[k] == Right_Sort){
+        //每次的左边图片变化。给正确答案设置tag
+        for(int k=0;k<to_character.length;k++){
+            image[k].setImageResource(characters[to_character[k]]);
+            if(to_character[k] == Right_Sort){
                 image[k].setTag(Right_Sort);
             }
         }
@@ -148,11 +171,13 @@ public class ABC_Learn_Activity extends Activity {
     }
 
     @OnClick({R.id.test_abc_1,R.id.test_abc_2,R.id.test_abc_3,R.id.test_abc_4,R.id.test_abc_5,
-            R.id.test_abc_6,R.id.test_abc_7,R.id.test_abc_8,R.id.test_abc_9,
-            R.id.test_abc_10,R.id.test_anbc_11,R.id.test_abc_12,R.id.test_abc_13,
-            R.id.test_abc_14,R.id.test_abc_15,R.id.test_abc_16,R.id.test_abc_17,
-            R.id.test_abc_18,R.id.test_abc_19,R.id.test_abc_20,R.id.test_abc_21,
-            R.id.test_abc_22,R.id.test_abc_23,R.id.test_abc_24,R.id.test_abc_25,R.id.test_abc_26})
+            R.id.test_abc_6,R.id.test_abc_7,R.id.test_abc_8})
+//            ,R.id.test_abc_9})
+            // R.id.test_abc_10,R.id.test_anbc_11,R.id.test_abc_12,R.id.test_abc_13,
+            // R.id.test_abc_14,R.id.test_abc_15,R.id.test_abc_16,R.id.test_abc_17,
+            // R.id.test_abc_18,R.id.test_abc_19,R.id.test_abc_20,R.id.test_abc_21,
+            // R.id.test_abc_22,R.id.test_abc_23,R.id.test_abc_24,R.id.test_abc_25,R.id.test_abc_26})
+
     public void choice_Result(ImageView image){
         if(image.getTag()!=null){
             if(image.getTag().toString().equals(String.valueOf(Right_Sort))){

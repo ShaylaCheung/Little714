@@ -39,6 +39,16 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
+            android:name=".Character.ABC_Learn_Activity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name=".Character.ABCChoiceActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name=".Number.NumberChoiceActivity"
             android:label="@string/title_activity_number_choice"
             android:screenOrientation="landscape"

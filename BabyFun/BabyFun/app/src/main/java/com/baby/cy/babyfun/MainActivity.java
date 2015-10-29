@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.baby.cy.babyfun.Animal.AnimalChoiceActivity;
 import com.baby.cy.babyfun.Music.MusicChoiceActivity;
 import com.baby.cy.babyfun.Number.NumberChoiceActivity;
+import com.baby.cy.babyfun.Character.ABCChoiceActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,6 +35,8 @@ public class MainActivity extends Activity {
                 startActivity(animalIntent);
                 break;
             case R.id.main_char:
+                Intent characterIntent = new Intent(MainActivity.this,ABCChoiceActivity.class);
+                startActivity(characterIntent);
                 break;
             case R.id.main_number:
                 Intent numberIntent = new Intent(MainActivity.this, NumberChoiceActivity.class);
