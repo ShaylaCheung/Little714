@@ -91,7 +91,9 @@
             android:name=".Music.PlayMusicActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".Music.RecordMusicActivity" >
+        <activity
+            android:name=".Music.RecordMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

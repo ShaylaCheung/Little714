@@ -1,9 +1,11 @@
 package com.baby.cy.babyfun.Music;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,11 +31,7 @@ public class PlayMusicActivity extends Activity{
     private boolean isPause = false;
 
     public PlayMusicActivity() {
-//        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        mFileName += "/record/"+recordAmount+".3gp";
 
-        mFileName = "/storage/emulated/0/kgmusic/download/shunjian.mp3";
-        Log.d("Tomato",mFileName);
     }
 
     @Override
@@ -41,6 +39,14 @@ public class PlayMusicActivity extends Activity{
         super.onCreate(bundle);
         setContentView(R.layout.play_music_layout);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        String music_name = intent.getStringExtra("music_name");
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/music/"+music_name+".amr";
+//        mFileName += "/record/"+recordAmount+".3gp";
+
+//        mFileName = "/storage/emulated/0/kgmusic/download/shunjian.mp3";
+        Log.d("Tomato", mFileName);
     }
 
 

@@ -1,14 +1,19 @@
 package com.baby.cy.babyfun.Music;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.baby.cy.babyfun.R;
 
+import java.io.File;
 import java.io.IOException;
 
 import butterknife.Bind;
@@ -24,7 +29,7 @@ public class RecordMusicActivity extends AppCompatActivity {
     Button finish_record_music;
 
     private MediaRecorder recorder;
-    private String music_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/chenyu.amr";
+    private String music_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/chenyu.amr";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,8 @@ public class RecordMusicActivity extends AppCompatActivity {
                     recorder.prepare();// 准备录制
                     Log.d("Tomato", "开始录制");
                     recorder.start();// 开始录制
+                    record_music.setVisibility(View.INVISIBLE);
+                    finish_record_music.setVisibility(View.VISIBLE);
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -63,9 +70,33 @@ public class RecordMusicActivity extends AppCompatActivity {
                 // 停止刻录
                 Log.d("Tomato", "停止刻录");
                 recorder.stop();
+                finish_record_music.setVisibility(View.INVISIBLE);
+                record_music.setVisibility(View.VISIBLE);
                 // 刻录完成一定要释放资源
                 Log.d("Tomato", "释放资源");
                 recorder.release();
+                final EditText editText = new EditText(this);
+                new AlertDialog.Builder(this).setTitle("保存")
+                        .setMessage("请为您的歌曲命名")
+                        .setView(editText)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String name = editText.getText().toString();
+                                File file = new File(music_path);
+                                file.renameTo(new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"//Music/"+name+".amr"));
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                File file = new File(music_path);
+                                file.delete();
+                            }
+                        })
+                        .show();
+
+
 
                 break;
         }

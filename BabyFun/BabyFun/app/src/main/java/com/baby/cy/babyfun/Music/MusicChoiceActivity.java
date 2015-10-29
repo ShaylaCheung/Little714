@@ -38,6 +38,14 @@ public class MusicChoiceActivity extends AppCompatActivity {
     private static final int LOGIN_SUCCESS = 4;
     private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -75,7 +83,7 @@ public class MusicChoiceActivity extends AppCompatActivity {
                         startActivity(set_intent);
                         break;
                     case R.id.navItem2:
-                        Intent play_intent = new Intent(MusicChoiceActivity.this,PlayMusicActivity.class);
+                        Intent play_intent = new Intent(MusicChoiceActivity.this,RecordMusicActivity.class);
                         startActivity(play_intent);
                         break;
                     case R.id.navItem3:
@@ -141,7 +149,7 @@ public class MusicChoiceActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.music_mother_rl:
-                intent.setClass(MusicChoiceActivity.this,LocalMusicActivity.class);
+                intent.setClass(MusicChoiceActivity.this,MotherMusicActivity.class);
                 startActivity(intent);
                 break;
             case R.id.music_find_rl:
