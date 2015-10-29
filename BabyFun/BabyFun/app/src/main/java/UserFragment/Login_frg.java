@@ -38,7 +38,7 @@ public class Login_frg extends BaseFragment {
     private TextView login_error_message;
 
     public RequestQueue mQueue;
-    private String url = "http://192.168.1.99:8080/BabyFun/api/login";
+    private String url = "http://192.168.1.114:8080/BabyFun/api/login";
 
     private User user;
 

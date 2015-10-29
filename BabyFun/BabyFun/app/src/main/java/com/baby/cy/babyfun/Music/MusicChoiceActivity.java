@@ -75,7 +75,8 @@ public class MusicChoiceActivity extends AppCompatActivity {
                         startActivity(set_intent);
                         break;
                     case R.id.navItem2:
-
+                        Intent play_intent = new Intent(MusicChoiceActivity.this,PlayMusicActivity.class);
+                        startActivity(play_intent);
                         break;
                     case R.id.navItem3:
                         Intent local_intent = new Intent(MusicChoiceActivity.this,LocalMusicActivity.class);

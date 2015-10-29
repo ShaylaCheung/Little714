@@ -2,7 +2,6 @@ package UserFragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -20,8 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.baby.cy.babyfun.Bean.User;
-import com.baby.cy.babyfun.Music.MusicChoiceActivity;
-import com.baby.cy.babyfun.Music.UserActivity;
 import com.baby.cy.babyfun.R;
 
 import org.json.JSONObject;
@@ -46,7 +43,7 @@ public class SignIn_frg extends BaseFragment{
 
     public RequestQueue mQueue;
     private User newUser = null;
-    private static final String signin_url = "http://192.168.1.99:8080/BabyFun/api/addUser";
+    private static final String signin_url = "http://192.168.1.114:8080/BabyFun/api/addUser";
 
     public SignIn_frg(){
 

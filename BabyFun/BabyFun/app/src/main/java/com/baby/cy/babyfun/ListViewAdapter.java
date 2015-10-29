@@ -31,16 +31,31 @@ public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         MusicInfos musicInfos = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId,null);
+        View view ;
+        ViewHolder viewHolder;
+        if(convertView==null){
+            view =  LayoutInflater.from(getContext()).inflate(resourceId,null);
+            viewHolder = new ViewHolder();
+            viewHolder.listview_music_id = (TextView)view.findViewById(R.id.listview_music_id);
+            viewHolder.listview_singer_name = (TextView) view.findViewById(R.id.listview_singer_name);
+            viewHolder.listview_music_name = (TextView) view.findViewById(R.id.listview_music_name);
+            view.setTag(viewHolder);
+        }else{
+            view = convertView;
+            viewHolder = (ViewHolder)view.getTag();
+        }
 
-        music_name = (TextView) view.findViewById(R.id.listview_music_name);
-        singer_name = (TextView) view.findViewById(R.id.listview_singer_name);
-        listview_music_id = (TextView)view.findViewById(R.id.listview_music_id);
-
-        music_name.setText(musicInfos.getMusic_name());
-        singer_name.setText(musicInfos.getSinger_name());
-        listview_music_id.setText(musicInfos.getId()+"");
+        viewHolder.listview_music_name.setText(musicInfos.getMusic_name());
+        viewHolder.listview_singer_name.setText(musicInfos.getSinger_name());
+        viewHolder.listview_music_id.setText(musicInfos.getId()+"");
         return view;
 
+    }
+
+
+    class ViewHolder{
+        TextView listview_music_id;
+        TextView listview_singer_name;
+        TextView listview_music_name;
     }
 }

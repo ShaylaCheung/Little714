@@ -21,7 +21,7 @@ public class Animal_Test_Activity extends Activity {
             R.drawable.animal_duck, R.drawable.animal_sheep,R.drawable.animal_fish,R.drawable.animal_horse};
 
     private String[] animal_names = {"公鸡","大象","狗","骆驼","鸟","螃蟹","蛇","狮子","蜗牛","乌龟","兔子","熊猫",
-        "鸭子","羊","鱼","马"};
+            "鸭子","羊","鱼","马"};
     private String[] animal_eng_name = {"Chicken","Elephant","Dog","Camel","Bird","Crab","Snake","Lion","Snail",
             "Tortoise","Rabbit","Panda","Duck","Sheep","Fish","Horse"};
 
@@ -98,15 +98,12 @@ public class Animal_Test_Activity extends Activity {
             if(image.getTag().toString().equals(String.valueOf(randomUtils.getRight_choice_id()))){
                 Toast.makeText(this,"Your are right!", Toast.LENGTH_SHORT).show();
 
-                if((count+1)% animals_ID.length!=0){
-                    count++;
-                    randomUtils.setTestImageBackground(count);
-                    animalName.setText(animal_names[randomUtils.getRight_choice_sort()[count]]);
-                    animalEngName.setText(animal_eng_name[randomUtils.getRight_choice_sort()[count]]);
 
-                }else{
-                    Toast.makeText(this,"if continue?",Toast.LENGTH_SHORT).show();
-                }
+                count++;
+                randomUtils.setTestImageBackground(count%animals_ID.length);
+                animalName.setText(animal_names[randomUtils.getRight_choice_sort()[count%animals_ID.length]]);
+                animalEngName.setText(animal_eng_name[randomUtils.getRight_choice_sort()[count%animals_ID.length]]);
+
             }
         }else{
             Toast.makeText(this,"再想想？",Toast.LENGTH_SHORT).show();
