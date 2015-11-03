@@ -7,22 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.baby.cy.babyfun.Bean.MusicInfos;
-
 import java.util.List;
 
 /**
- * Created by chenyu on 15/10/24.
+ * Created by Potato on 15/10/29.
  */
-public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
+public class MotherListViewAdapter extends ArrayAdapter<String> {
 
     private int resourceId ;
 
-    private TextView listview_music_id;
-    private TextView music_name;
-    private TextView singer_name;
-
-    public ListViewAdapter(Context context,int resourceId,List<MusicInfos> object){
+    public MotherListViewAdapter(Context context,int resourceId,List<String> object){
         super(context,resourceId,object);
         this.resourceId = resourceId;
     }
@@ -30,7 +24,7 @@ public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        MusicInfos musicInfos = getItem(position);
+        String music_name = getItem(position);
         View view ;
         ViewHolder viewHolder;
         if(convertView==null){
@@ -45,9 +39,9 @@ public class ListViewAdapter extends ArrayAdapter<MusicInfos> {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.listview_music_name.setText(musicInfos.getMusic_name());
-        viewHolder.listview_singer_name.setText(musicInfos.getSinger_name());
-        viewHolder.listview_music_id.setText(musicInfos.getId()+"");
+        viewHolder.listview_music_name.setText(music_name);
+        viewHolder.listview_singer_name.setText(null);
+        viewHolder.listview_music_id.setText(1+"");
         return view;
 
     }

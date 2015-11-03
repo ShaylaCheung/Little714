@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.baby.cy.babyfun.R;
 import com.zzt.library.MaterialImageView;
 
+import Utils.RandomUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,10 +18,9 @@ public class NumberLearnActivity extends Activity {
     MaterialImageView number_learn_image;
     @Bind(R.id.number_learn)ImageView imageView;
 
-    private int[] Number_Pic_ID = {R.drawable.animal_chicken,R.drawable.animal_elephant,R.drawable.animal_dog,R.drawable.animal_camel,
-            R.drawable.animal_bird,R.drawable.animal_crab,R.drawable.animal_snake,R.drawable.animal_lion,
-            R.drawable.animal_snail,R.drawable.animal_tortoise,R.drawable.animal_rabbit, R.drawable.animal_panda,
-            R.drawable.animal_duck, R.drawable.animal_sheep,R.drawable.animal_fish,R.drawable.animal_horse};
+    private int[] Number_Pic_ID = {R.drawable.math_num_1,R.drawable.math_num_2,
+            R.drawable.math_num_3, R.drawable.math_num_4,R.drawable.math_num_5,R.drawable.math_num_6,
+            R.drawable.math_num_7, R.drawable.math_num_8,R.drawable.math_num_9, R.drawable.math_num_10};
 
     private int[] number_name_id = {R.drawable.number1,R.drawable.number2,R.drawable.number3,R.drawable.number4,
             R.drawable.number5,R.drawable.number6,R.drawable.number7,R.drawable.number8,R.drawable.number9,
@@ -28,7 +28,7 @@ public class NumberLearnActivity extends Activity {
 
     private int count = 0;
 
-//    private RandomUtils randomUtils;
+    private RandomUtils randomUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +39,18 @@ public class NumberLearnActivity extends Activity {
         //设置MaterialImageView图片的偏移量
         number_learn_image.setRotation(-10);
 
-//        randomUtils = new RandomUtils(animals_ID,materialImageView);
-//        randomUtils.setLearnImageBackground(count);
-        initImage(count);
+        randomUtils = new RandomUtils(Number_Pic_ID,number_learn_image);
+        randomUtils.setLearnImageBackground(count);
+        imageView.setImageResource(number_name_id[randomUtils.getRight_choice_sort()[count % Number_Pic_ID.length]]);
+
+
     }
 
     @OnClick(R.id.number_learn_image)
     public void nextNumber(){
         count++;
-//        randomUtils.setLearnImageBackground(count);
-        initImage(count);
+        randomUtils.setLearnImageBackground(count);
+        imageView.setImageResource(number_name_id[randomUtils.getRight_choice_sort()[count%Number_Pic_ID.length]]);
     }
 
-    public void initImage(int index){
-        number_learn_image.setImageResource(Number_Pic_ID[index]);
-        imageView.setImageResource(number_name_id[index]);
-    }
 }

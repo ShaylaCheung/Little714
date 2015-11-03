@@ -43,7 +43,7 @@ public class LocalMusicActivity extends AppCompatActivity {
 
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
-    private String local_music_url = "http://192.168.1.99:8080/BabyFun/api/getAllMusicList";
+    private String local_music_url = "http://192.168.1.114:8080/BabyFun/api/getAllMusicList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ public class LocalMusicActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 new AlertDialog.Builder(LocalMusicActivity.this).setTitle("删除")
-                        .setMessage("您确定退出登录状态？")
+                        .setMessage("您确定删除该歌曲？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

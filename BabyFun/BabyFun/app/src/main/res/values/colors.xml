@@ -15,4 +15,5 @@
     <color name="listview_download">#14d8ea</color>
     <color name="listview_delete">#ef640e</color>
     <color name="listview_goto">#d1d0d0</color>
+    <color name="playmusic_bg">#32ffffff</color>
 </resources>
