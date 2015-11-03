@@ -5,12 +5,19 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="23" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
     <application
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="babyfun" >
         <activity
             android:name="com.baby.cy.babyfun.MainActivity"
             android:label="@string/app_name"
@@ -24,54 +31,75 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.AnimalChoiceActivity"
+            android:name="com.baby.cy.babyfun.Animal.AnimalChoiceActivity"
             android:label="@string/title_activity_animal_choice"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.Animal_Learn_Activity"
+            android:name="com.baby.cy.babyfun.Animal.Animal_Learn_Activity"
             android:label="@string/title_activity_animal__learn_"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.Animal_Test_Activity"
+            android:name="com.baby.cy.babyfun.Animal.Animal_Test_Activity"
             android:label="@string/title_activity_animal__test"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.MusicActivity"
-            android:label="@string/title_activity_music"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
-        <activity
-            android:name="com.baby.cy.babyfun.NumberChoiceActivity"
+            android:name="com.baby.cy.babyfun.Number.NumberChoiceActivity"
             android:label="@string/title_activity_number_choice"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.NumberLearnActivity_1"
+            android:name="com.baby.cy.babyfun.Number.NumberLearnActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.NumberLearnActivity_2"
+            android:name="com.baby.cy.babyfun.Character.ABC_Learn_Activity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.NumberLearnActivity_3"
+            android:name="com.baby.cy.babyfun.Character.ABCChoiceActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="com.baby.cy.babyfun.NumberLearnActivity_4"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:name="com.baby.cy.babyfun.Music.MusicChoiceActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.FindMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.MotherMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.PreferMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.UserActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.SetUserActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.PlayMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.baby.cy.babyfun.Music.RecordMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
