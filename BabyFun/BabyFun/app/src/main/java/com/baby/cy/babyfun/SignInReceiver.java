@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Created by Potato on 15/11/2.
+ * Created by chenyu on 15/11/2.
  */
 public class SignInReceiver extends BroadcastReceiver{
 
