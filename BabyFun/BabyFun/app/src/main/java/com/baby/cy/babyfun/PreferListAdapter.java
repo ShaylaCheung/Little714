@@ -7,16 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.baby.cy.babyfun.Bean.MusicInfos;
+
 import java.util.List;
 
 /**
- * Created by chenyu on 15/10/29.
+ * Created by chenyu on 15/11/4.
  */
-public class MotherListViewAdapter extends ArrayAdapter<String> {
+public class PreferListAdapter extends ArrayAdapter<MusicInfos> {
 
     private int resourceId ;
 
-    public MotherListViewAdapter(Context context,int resourceId,List<String> object){
+    private TextView listview_music_id;
+    private TextView music_name;
+    private TextView singer_name;
+
+    public PreferListAdapter(Context context,int resourceId,List<MusicInfos> object){
         super(context,resourceId,object);
         this.resourceId = resourceId;
     }
@@ -24,9 +30,8 @@ public class MotherListViewAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
-        String music_name = getItem(position);
         int music_count = position + 1;
+        MusicInfos musicInfos = getItem(position);
         View view ;
         ViewHolder viewHolder;
         if(convertView==null){
@@ -41,8 +46,8 @@ public class MotherListViewAdapter extends ArrayAdapter<String> {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.listview_music_name.setText(music_name);
-        viewHolder.listview_singer_name.setText(null);
+        viewHolder.listview_music_name.setText(musicInfos.getMusic_name());
+        viewHolder.listview_singer_name.setText(musicInfos.getSinger_name());
         viewHolder.listview_music_id.setText(music_count+"");
         return view;
 
