@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="BabyFun"
+  id="myeclipse.1445676257275"
+  context-root="/BabyFun"
+  j2ee-spec="5.0"
+  archive="BabyFun.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
