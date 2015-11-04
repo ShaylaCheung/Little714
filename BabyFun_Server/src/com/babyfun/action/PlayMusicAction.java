@@ -41,6 +41,10 @@ public class PlayMusicAction extends ActionSupport{
 		this.music_id = music_id;
 	}
 
+	/**
+	 * 获取所有音乐
+	 * @return
+	 */
 	public String getPlayList(){
 		List<Music> musicList = new PlayMusicDao().getPlayList(user_id);
 		data.clear();
@@ -48,6 +52,10 @@ public class PlayMusicAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	/**
+	 * 添加到播放列表的接口
+	 * @return
+	 */
 	public String addUserMusic(){
 		data.clear();
 		boolean addMusic_status = new PlayMusicDao().addUserMusic(user_id, music_id);
@@ -62,6 +70,10 @@ public class PlayMusicAction extends ActionSupport{
 		}
 	}
 	
+	/**
+	 * 从播放列表账中删除歌曲
+	 * @return
+	 */
 	public String deleteUserMusic(){
 		data.clear();
 		boolean delete_status = new PlayMusicDao().deleteUserMusic(user_id, music_id);
@@ -74,6 +86,10 @@ public class PlayMusicAction extends ActionSupport{
 		}
 	}
 	
+	/**
+	 * 判断该音乐是否在播放列表中的接口
+	 * @return
+	 */
 	public String isInPlayList(){
 		data.clear();
 		boolean isInPlay = new PlayMusicDao().isInPlayList(user_id, music_id);

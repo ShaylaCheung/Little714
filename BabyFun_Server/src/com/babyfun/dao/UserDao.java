@@ -64,4 +64,80 @@ public class UserDao {
 		}
 		return user;
 	}
+	
+	/**
+	 * 判断欲注册的手机号码是否已被注册
+	 * @param user_phone
+	 * @return
+	 */
+	public boolean isPhoneSignIn(String user_phone){
+		String sql = "select * from bf_user where user_phone=?";
+	    boolean isPhoneSignin = false;
+		DatabaseConnection dbc = new DatabaseConnection();
+		try{
+			PreparedStatement ps = dbc.getCon().prepareStatement(sql);
+			ps.setString(1, user_phone);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				isPhoneSignin = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			dbc.close();
+		}
+		return isPhoneSignin;
+	}
+	
+	/**
+	 * 判断欲注册的账户名称是否已被注册
+	 * @param user_name
+	 * @return
+	 */
+	public boolean isNameSignIn(String user_name){
+		String sql = "select user_name from bf_user where user_name=?";
+	    boolean isNameSignin = false;
+		DatabaseConnection dbc = new DatabaseConnection();
+		try{
+			PreparedStatement ps = dbc.getCon().prepareStatement(sql);
+			ps.setString(1, user_name);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				isNameSignin = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			dbc.close();
+		}
+		return isNameSignin;
+	}
+	
+	
+	/**
+	 * 更新用户信息
+	 * @param user_name
+	 * @param user_phone
+	 * @param user_id
+	 */
+	public boolean updateUserInformation(String user_name,String user_phone,Long user_id){
+		String sql = "update bf_user set user_name=?,user_phone=? where id=?";
+		DatabaseConnection dbc = new DatabaseConnection();
+		boolean update_state = false;
+		try{
+			PreparedStatement ps = dbc.getCon().prepareStatement(sql);
+			ps.setString(1,user_name );
+			ps.setString(2, user_phone);
+			ps.setLong(3, user_id);
+			int update= ps.executeUpdate();
+			if(update!=0){
+				update_state = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			dbc.close();
+		}
+		return update_state;
+	}
 }

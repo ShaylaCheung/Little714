@@ -19,6 +19,27 @@
 			</result>
 		</action>
 		
+		<action name="isPhoneSignIn" class="com.babyfun.action.UserAction"
+			method="isPhoneSignIn">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="isNameSignIn" class="com.babyfun.action.UserAction"
+			method="isNameSignIn">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="updateUserInformation" class="com.babyfun.action.UserAction"
+			method="updateUserInformation">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
 		<action name="getAllMusicList" class="com.babyfun.action.MusicAction"
 			method="getAllMusicList">
 			<result type="json">
