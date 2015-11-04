@@ -38,12 +38,10 @@ public class MotherMusicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mother_music_layout);
-
+        setContentView(R.layout.music_mother_layout);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
-        toolbar.setTitle("妈妈摇篮曲");
+        getSupportActionBar().setTitle("妈妈摇篮曲");
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
