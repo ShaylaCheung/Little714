@@ -1,20 +1,21 @@
 package Utils;
 
 /**
- *
  * 程序中所用到的接口地址
  * Created by chenyu on 2015/11/3.
  */
 public class URLUtils {
-    private static final String url_head = "http://192.168.1.106:8080/";
+    private static final String url_head = "http://192.168.1.114:8080/";
     //注册接口地址
     public static final String signin_url = url_head + "BabyFun/api/addUser";
     //登录接口地址
     public static final String login_url = url_head + "BabyFun/api/login";
+    //获取某项音乐是否存在播放列表中
+    public static final String isInPlayList_url = url_head + "BabyFun/api/isInPlayList";
     //获取播放列表地址
     public static final String prefer_music_url = url_head + "BabyFun/api/getPlayList";
     //删除播放列表某项的地址
-    public static final String deleteUserMusic_url = url_head + "BabyFun/api/addUserMusic";
+    public static final String deleteUserMusic_url = url_head + "BabyFun/api/deleteUserMusic";
     //添加音乐到播放列表的地址
     public static final String addUserMusic_url = url_head + "BabyFun/api/addUserMusic";
     //获取服务器所有音乐的地址

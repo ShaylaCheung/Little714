@@ -23,6 +23,7 @@ import com.baby.cy.babyfun.Bean.User;
 import com.baby.cy.babyfun.LoginReceiver;
 import com.baby.cy.babyfun.R;
 import com.baby.cy.babyfun.SignInReceiver;
+import com.baby.cy.babyfun.SignOutReceiver;
 import com.pkmmte.view.CircularImageView;
 
 import Utils.StateUtils;
@@ -30,7 +31,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MusicChoiceActivity extends AppCompatActivity implements SignInReceiver.OnSignInListener,LoginReceiver.OnLoginListener{
+public class MusicChoiceActivity extends AppCompatActivity implements SignInReceiver.OnSignInListener,
+        LoginReceiver.OnLoginListener,SignOutReceiver.OnSignOutListener{
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.collapsingToolbarLayout)CollapsingToolbarLayout toolbarLayout;
@@ -41,12 +43,15 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
     private static CircularImageView user_image;
     private static final int NEW_USER = 2;
     private static final int LOGIN_SUCCESS = 4;
+    private static final int SIGNOUT_SUCCESS = 6;
     private  User user;
 
     private LoginReceiver loginReceiver ;
     private IntentFilter loginintentFilter ;
-    private LoginReceiver signinReceiver ;
+    private SignInReceiver signinReceiver ;
     private IntentFilter signinintentFilter ;
+    private SignOutReceiver signOutReceiver ;
+    private IntentFilter signOutintentFilter ;
     private  boolean isLogin = false;
     private Long user_id;
     private String user_name;
@@ -62,6 +67,10 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
                 case LOGIN_SUCCESS:
                     user_text.setText(user_name);
                     user_image.setImageResource(R.drawable.user_image_login);
+                    break;
+                case SIGNOUT_SUCCESS:
+                    user_text.setText("未登录");
+                    user_image.setImageResource(R.drawable.user_image_unlogin);
                     break;
             }
         }
@@ -108,7 +117,7 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
         this.registerReceiver(loginReceiver, loginintentFilter);
 
 
-        signinReceiver = new LoginReceiver(this){
+        signinReceiver = new SignInReceiver(this){
             @Override
             public void onReceive(Context context, Intent intent) {
                 super.onReceive(context, intent);
@@ -121,6 +130,28 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
         //注册广播接收器
         this.registerReceiver(signinReceiver, signinintentFilter);
 
+        signOutReceiver = new SignOutReceiver(this){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                super.onReceive(context, intent);
+                isLogin = intent.getBooleanExtra("isLogin",false);
+                StateUtils.setIsLogin(false);
+                StateUtils.setUser_id(0L);
+                StateUtils.setUser_name(null);
+                Log.d("Tomato",intent.getAction());
+                if(intent.getAction().equals(ON_SIGNOUT_FINISH)){
+                    onSignOutFinish();
+                    return;
+                }
+            }
+        };
+        signOutintentFilter = new IntentFilter();
+        signOutintentFilter.addAction(LoginReceiver.ON_LOGIN_FINISH);
+        //注册广播接收器
+        this.registerReceiver(signOutReceiver, signOutintentFilter);
+
+
+        initNavigation();
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -149,13 +180,16 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
                                         StateUtils.setIsLogin(false);
                                         StateUtils.setUser_id(0L);
                                         StateUtils.setUser_name(null);
+                                        Intent intent = new Intent(SignOutReceiver.ON_SIGNOUT_FINISH);
+                                        Log.d("Tomato","send:"+SignOutReceiver.ON_SIGNOUT_FINISH);
+                                        intent.putExtra("isLogin",false);
+                                        sendBroadcast(intent);
                                     }
                                 })
                                 .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Log.d("Tomato", "no exit");
-//                                        finish();
                                     }
                                 }).show();
 
@@ -244,6 +278,17 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
         handler.sendMessage(msg);
     }
 
+    /**
+     * 退出登录状态
+     */
+    @Override
+    public void onSignOutFinish() {
+        isLogin = StateUtils.isLogin();
+        Log.d("Tomato","signout!");
+        Message msg = new Message();
+        msg.what = SIGNOUT_SUCCESS;
+        handler.sendMessage(msg);
+    }
 
     @Override
     protected void onDestroy() {
@@ -253,6 +298,9 @@ public class MusicChoiceActivity extends AppCompatActivity implements SignInRece
         }
         if(signinReceiver!=null){
             unregisterReceiver(signinReceiver);
+        }
+        if(signOutReceiver!=null){
+            unregisterReceiver(signOutReceiver);
         }
 
     }

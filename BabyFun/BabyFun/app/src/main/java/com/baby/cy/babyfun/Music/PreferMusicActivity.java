@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,6 +47,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
     @Bind(R.id.local_music_toolbar)Toolbar toolbar;
     @Bind(R.id.local_listView) SwipeMenuListView listView;
+    @Bind(R.id.play_layout) CoordinatorLayout play_layout ;
 
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
@@ -52,12 +55,14 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
     private LoginReceiver loginReceiver ;
     private IntentFilter intentFilter ;
     private boolean isLogin = false;
+    private ListViewAdapter adapter;
+    private boolean isDeleteSuccess = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.music_local_layout);
+        setContentView(R.layout.music_play_layout);
 
 
         ButterKnife.bind(this);
@@ -94,7 +99,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
             getMusicParams(URLUtils.prefer_music_url,user_id);
         }else{
             new AlertDialog.Builder(PreferMusicActivity.this)
-                    .setTitle("添加歌曲失败")
+                    .setTitle("获取播放列表失败")
                     .setMessage("您还未登录，请先登录？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -106,7 +111,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            play_layout.setBackgroundResource(R.drawable.play_unlogin_bg);
                         }
                     })
                     .show();
@@ -117,7 +122,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
 
     public void initListView(){
-        ListViewAdapter adapter = new ListViewAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
+        adapter = new ListViewAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
 
         //添加并且显示
         listView.setAdapter(adapter);
@@ -159,6 +164,8 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
+                        Long music_id = musicList.get(position).getId();
+                        deleteMusicParams(URLUtils.deleteUserMusic_url,user_id,music_id,position);
                         break;
                 }
                 return false;
@@ -168,22 +175,23 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 new AlertDialog.Builder(PreferMusicActivity.this).setTitle("删除")
                         .setMessage("您确定删除该歌曲？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "exit");
+                                Long music_id = musicList.get(position).getId();
+                                deleteMusicParams(URLUtils.deleteUserMusic_url, user_id, music_id,position);
                             }
                         })
                         .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "no exit");
+
                             }
                         }).show();
-                return false;
+                return true;
             }
         });
     }
@@ -246,5 +254,55 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void deleteMusicParams(String url,final Long user_id,final Long music_id,final int position){
+        mQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //得到删除的结果---true为删除成功
+                        isDeleteSuccess = parseDeleteMusicJson(response);
+                        Log.d("Tomato","url:"+URLUtils.deleteUserMusic_url);
+                        Log.d("Tomato",isDeleteSuccess+"");
+                        if (isDeleteSuccess) {
+                            //删除成功
+                            musicList.remove(position);//选择行的位置
+                            adapter.notifyDataSetChanged();
+                            listView.invalidate();
+                        } else {
+                            Toast.makeText(PreferMusicActivity.this,"删除失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Tomato", error.getMessage(), error);
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> data = new HashMap<String, String>();
+                data.put("user_id", user_id.toString());
+                data.put("music_id",music_id.toString());
+                return data;
+            }
+        };
+        mQueue.add(stringRequest);
+    }
+
+    public boolean parseDeleteMusicJson(String response){
+        boolean delete_status = false;
+        try{
+            JSONObject data = new JSONObject(response);
+            delete_status = data.getBoolean("delete_status");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return delete_status;
     }
 }

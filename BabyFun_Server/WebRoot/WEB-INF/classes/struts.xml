@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="devMode" value="true"></constant>
+
+	<package name="defualt" namespace="/api" extends="json-default">
+
+		<action name="login" class="com.babyfun.action.UserAction"
+			method="login">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="addUser" class="com.babyfun.action.UserAction"
+			method="addUser">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="isPhoneSignIn" class="com.babyfun.action.UserAction"
+			method="isPhoneSignIn">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="isNameSignIn" class="com.babyfun.action.UserAction"
+			method="isNameSignIn">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="updateUserInformation" class="com.babyfun.action.UserAction"
+			method="updateUserInformation">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="getAllMusicList" class="com.babyfun.action.MusicAction"
+			method="getAllMusicList">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="getLocalMusicList" class="com.babyfun.action.MusicAction"
+			method="getLocalMusicList">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="getPlayList" class="com.babyfun.action.PlayMusicAction"
+			method="getPlayList">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="addUserMusic" class="com.babyfun.action.PlayMusicAction"
+			method="addUserMusic">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="deleteUserMusic" class="com.babyfun.action.PlayMusicAction"
+			method="deleteUserMusic">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="isInPlayList" class="com.babyfun.action.PlayMusicAction"
+			method="isInPlayList">
+			<result type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>
+
+</struts>    

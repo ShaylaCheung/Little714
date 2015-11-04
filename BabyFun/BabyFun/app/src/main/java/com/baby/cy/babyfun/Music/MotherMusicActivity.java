@@ -31,6 +31,7 @@ public class MotherMusicActivity extends AppCompatActivity {
     @Bind(R.id.mother_pull_to_refresh) PullToRefreshView pullToRefreshView;
     @Bind(R.id.mother_listview) ListView listView;
 
+
     private String music_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music";
     private List<String> music_name_list = new ArrayList<String>();
 
