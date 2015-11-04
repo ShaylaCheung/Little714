@@ -100,13 +100,18 @@ public class Login_frg extends BaseFragment {
                         }else{
                             Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
 
+//                            Log.d("Tomato",user.getUser_phone());
                             StateUtils.setIsLogin(true);
                             StateUtils.setUser_name(user.getUser_name());
                             StateUtils.setUser_id(user.getId());
+                            StateUtils.setUser_phone(user.getUser_phone());
+                            Log.d("Tomato","Login success--->"+StateUtils.getUser_phone());
                             //登陆成功，发送广播
                             Intent login_intent = new Intent(LoginReceiver.ON_LOGIN_FINISH);
                             login_intent.putExtra("user_id",user.getId());
                             login_intent.putExtra("user_name",user.getUser_name());
+                            login_intent.putExtra("user_phone",user.getUser_phone());
+
                             getActivity().sendBroadcast(login_intent);
                             getActivity().finish();
 
@@ -140,7 +145,8 @@ public class Login_frg extends BaseFragment {
             j_user.setId(data.getLong("id"));
             j_user.setUser_name(data.getString("user_name"));
             j_user.setUser_password(data.getString("user_password"));
-            j_user.setUser_password(data.getString("user_phone"));
+            j_user.setUser_phone(data.getString("user_phone"));
+            Log.d("Tomato",j_user.getUser_phone()+"");
         }catch (Exception e){
             e.printStackTrace();
         }

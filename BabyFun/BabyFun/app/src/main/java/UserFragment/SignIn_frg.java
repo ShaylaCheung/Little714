@@ -1,7 +1,6 @@
 package UserFragment;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -19,16 +18,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.baby.cy.babyfun.Bean.User;
-import com.baby.cy.babyfun.LoginReceiver;
 import com.baby.cy.babyfun.Music.MusicChoiceActivity;
 import com.baby.cy.babyfun.R;
 import com.baby.cy.babyfun.SignInReceiver;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import Utils.StateUtils;
 import Utils.URLUtils;
 
@@ -48,28 +43,23 @@ public class SignIn_frg extends BaseFragment{
     private ViewPager viewPager;
     private TabLayout login_tab_layout;
 
-    public RequestQueue mQueue;
+    private RequestQueue mQueue;
     private User newUser = null;
 
-    private LoginReceiver loginReceiver ;
-    private IntentFilter intentFilter ;
-    private boolean isLogin = false;
-    private Long user_id = 0L; //当前已经登陆的用户ID
+    private String name;
+    private String phone;
+    private String password1;
+    private String password2;
 
     public SignIn_frg(){
-
         super(R.layout.signin_layout);
-
-
     }
     public User getNewUser() {
         return newUser;
     }
-
     public void setNewUser(User newUser) {
         this.newUser = newUser;
     }
-
     @Override
     public void initView(View view) {
         mQueue = Volley.newRequestQueue(view.getContext());
@@ -88,19 +78,17 @@ public class SignIn_frg extends BaseFragment{
             @Override
             public void onClick(View v) {
                 signin_error_layout.setVisibility(View.INVISIBLE);
-                String name = signin_name.getText().toString();
-                String phone = signin_phone.getText().toString();
-                String password1 = signin_password_1.getText().toString();
-                String password2 = signin_password_2.getText().toString();
+                name = signin_name.getText().toString();
+                phone = signin_phone.getText().toString();
+                password1 = signin_password_1.getText().toString();
+                password2 = signin_password_2.getText().toString();
 
                 if (!phone.equals("")) {
                     if (!name.equals("")) {
                         if (!password1.equals("")) {
                             if (!password2.equals("")) {
                                 if (password1.equals(password2)) {
-                                    //注册成功
-                                    postLoginParams(URLUtils.signin_url,name,password1,phone);
-
+                                    postisPhoneSignInParams(URLUtils.isPhoneSignIn_url,phone);
                                 } else {
                                     signin_error_layout.setVisibility(View.VISIBLE);
                                     signin_error_message.setText("密码不一致");
@@ -120,30 +108,35 @@ public class SignIn_frg extends BaseFragment{
                 } else {
                     signin_error_layout.setVisibility(View.VISIBLE);
                     signin_error_message.setText("请填写注册手机号");
-
                 }
-
             }
         });
     }
 
-
-
-    public void postLoginParams(String url, final String user_name, final String user_password,final String user_phone){
+    /**
+     * 发送注册请求
+     * @param url
+     * @param user_name
+     * @param user_password
+     * @param user_phone
+     */
+    public void postSignInParams(String url, final String user_name, final String user_password,final String user_phone){
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        newUser = parseUserJson(response);
+                        newUser = parseSignInJson(response);
                         if(newUser.getId()!=null){
                             Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                             StateUtils.setIsLogin(true);
                             StateUtils.setUser_name(newUser.getUser_name());
                             StateUtils.setUser_id(newUser.getId());
+                            StateUtils.setUser_phone(newUser.getUser_phone());
                             Intent intent = new Intent(SignInReceiver.ON_SIGNIN_FINISH);
                             intent.putExtra("user_id",newUser.getId());
                             intent.putExtra("user_name",newUser.getUser_name());
+                            intent.putExtra("user_phone",newUser.getUser_phone());
                             //发送广播
                             getActivity().sendBroadcast(intent);
                             getActivity().finish();
@@ -175,8 +168,12 @@ public class SignIn_frg extends BaseFragment{
 
     }
 
-
-    public User parseUserJson(String response){
+    /**
+     * 解析注册请求获得的JSON字符串
+     * @param response
+     * @return
+     */
+    public User parseSignInJson(String response){
 
         User j_user = new User();
         try{
@@ -192,8 +189,118 @@ public class SignIn_frg extends BaseFragment{
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.d("Tomato","jname:"+j_user.getUser_name());
+        Log.d("Tomato", "jname:" + j_user.getUser_name());
         return j_user;
+    }
+
+
+    /**
+     * 发送请求，判读欲注册的手机号码是否已经注册
+     * @param url
+     * @param user_phone
+     */
+    public void postisPhoneSignInParams(String url,final String user_phone){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean isPhoneSignIn  = parseisPhoneSignInJson(response);
+                        if(isPhoneSignIn){
+                            //欲注册的手机号码已被注册
+                            signin_error_layout.setVisibility(View.VISIBLE);
+                            signin_error_message.setText("该手机号码已被注册");
+                        }else{
+                            //该手机号未被注册，判断昵称是否被注册
+                            postisNameSignInParams(URLUtils.isNameSignIn_url,name);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Tomato", error.getMessage(), error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> data = new HashMap<String, String>();
+                data.put("user_phone", user_phone);
+                return data;
+            }
+        };
+        mQueue.add(stringRequest);
+    }
+    /**
+     * 解析JSON
+     * @param response
+     * @return
+     */
+    public boolean parseisPhoneSignInJson(String response){
+        boolean isPhoneSignIn = false;
+        try{
+            JSONObject data = new JSONObject(response);
+            isPhoneSignIn = data.getBoolean("isPhoneSignIn");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isPhoneSignIn;
+    }
+
+    /**
+     * 发送请求，判读欲注册的用户昵称是否已经注册
+     * @param url
+     * @param user_name
+     */
+    public void postisNameSignInParams(String url,final String user_name){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean isNameSignIn  = parseisNameSignInJson(response);
+                        if(isNameSignIn){
+                            //欲注册的用户昵称已被注册
+                            signin_error_layout.setVisibility(View.VISIBLE);
+                            signin_error_message.setText("该昵称已被注册");
+                        }else{
+                            //该用户昵称未被注册
+                            //注册成功
+                            postSignInParams(URLUtils.signin_url, name, password1, phone);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Tomato", error.getMessage(), error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> data = new HashMap<String, String>();
+                data.put("user_name", user_name);
+                return data;
+            }
+        };
+        mQueue.add(stringRequest);
+    }
+    /**
+     * 解析JSON
+     * @param response
+     * @return
+     */
+    public boolean parseisNameSignInJson(String response){
+        boolean isNameSignIn = false;
+        try{
+            JSONObject data = new JSONObject(response);
+            isNameSignIn = data.getBoolean("isNameSignIn");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isNameSignIn;
     }
 
 }

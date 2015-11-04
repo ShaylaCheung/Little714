@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="babyfun" >
@@ -53,7 +52,6 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-
         <activity
             android:name=".Character.ABC_Learn_Activity"
             android:screenOrientation="landscape"
@@ -64,7 +62,6 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-
         <activity
             android:name=".Music.MusicChoiceActivity"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -95,7 +92,7 @@
         </activity>
         <activity
             android:name=".Music.RecordMusicActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

@@ -7,18 +7,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/user_bg"
+        android:background="@color/colorPrimary"
         android:scaleType="centerCrop" />
-    <!--
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/user_image"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="46dp"
-        android:layout_marginLeft="20dp"/>
-        -->
-
     <com.pkmmte.view.CircularImageView
         android:id="@+id/user_image"
         android:layout_width="120dp"

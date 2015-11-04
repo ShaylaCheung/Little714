@@ -68,7 +68,7 @@
                     android:textSize="12dp"
                     android:background="@android:color/transparent"/>
                 <RelativeLayout
-                    android:id="@+id/music_local_rl"
+                    android:id="@+id/music_find_rl"
                     android:layout_marginTop="-10dp"
                     android:layout_width="match_parent"
                     android:layout_height="180dip">
@@ -101,7 +101,7 @@
                         android:textSize="20dp"
                         android:textColor="#ffffff"
                         android:layout_marginBottom="10dp"
-                        android:text="本地摇篮曲"/>
+                        android:text="发现摇篮曲"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/music_mother_rl"
@@ -139,7 +139,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/music_find_rl"
+                    android:id="@+id/music_play_rl"
                     android:layout_width="match_parent"
                     android:layout_marginBottom="10dp"
                     android:layout_height="180dip">
@@ -171,14 +171,22 @@
                         android:textSize="20dp"
                         android:textColor="#ffffff"
                         android:layout_marginBottom="10dp"
-                        android:text="发现摇篮曲"/>
+                        android:text="播放列表"/>
                 </RelativeLayout>
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
-
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/record_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:scaleType="center"
+            android:src="@drawable/record"/>
     </android.support.design.widget.CoordinatorLayout>
+
 
 
     <android.support.design.widget.NavigationView

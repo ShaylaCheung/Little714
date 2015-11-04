@@ -49,7 +49,6 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
     @Bind(R.id.find_music_toolbar)Toolbar toolbar;
     @Bind(R.id.pull_to_refresh) PullToRefreshView pullToRefreshView;
     @Bind(R.id.find_listView) SwipeMenuListView listView;
-
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
 
@@ -63,10 +62,10 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music_find_layout);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("发现摇篮曲");
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("发现摇篮曲");
+//        toolbar.setTitle("发现摇篮曲");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +107,6 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
 
 
 
-
     }
 
 
@@ -147,6 +145,7 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
                 downloadItem.setWidth(300);
                 downloadItem.setTitle("添加");
                 downloadItem.setTitleSize(18);
+                downloadItem.setIcon(android.R.drawable.btn_star_big_on);
                 downloadItem.setTitleColor(Color.WHITE);
                 menu.addMenuItem(downloadItem);
 

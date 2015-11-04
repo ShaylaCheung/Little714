@@ -22,8 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.baby.cy.babyfun.Bean.MusicInfos;
-import com.baby.cy.babyfun.ListViewAdapter;
 import com.baby.cy.babyfun.LoginReceiver;
+import com.baby.cy.babyfun.PreferListAdapter;
 import com.baby.cy.babyfun.R;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -55,7 +55,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
     private LoginReceiver loginReceiver ;
     private IntentFilter intentFilter ;
     private boolean isLogin = false;
-    private ListViewAdapter adapter;
+    private PreferListAdapter adapter;
     private boolean isDeleteSuccess = false;
 
 
@@ -63,13 +63,10 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music_play_layout);
-
-
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("播放列表");
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("播放列表");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +119,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
 
     public void initListView(){
-        adapter = new ListViewAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
+        adapter = new PreferListAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
 
         //添加并且显示
         listView.setAdapter(adapter);
@@ -147,14 +144,15 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
             @Override
             public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem downloadItem = new SwipeMenuItem(getApplicationContext());
-                downloadItem.setBackground(R.color.listview_delete);
-                downloadItem.setWidth(300);
-                downloadItem.setTitle("删除");
-                downloadItem.setTitleSize(18);
-                downloadItem.setTitleColor(Color.WHITE);
-                menu.addMenuItem(downloadItem);
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+                deleteItem.setBackground(R.color.listview_delete);
+                deleteItem.setWidth(300);
+                deleteItem.setTitle("删除");
+                deleteItem.setIcon(android.R.drawable.ic_menu_delete);
+                deleteItem.setTitleSize(18);
+                deleteItem.setTitleColor(Color.WHITE);
+                menu.addMenuItem(deleteItem);
             }
         };
         listView.setMenuCreator(creator);
@@ -165,7 +163,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
                 switch (index) {
                     case 0:
                         Long music_id = musicList.get(position).getId();
-                        deleteMusicParams(URLUtils.deleteUserMusic_url,user_id,music_id,position);
+                        deleteMusicParams(URLUtils.deleteUserMusic_url, user_id, music_id, position);
                         break;
                 }
                 return false;
@@ -251,10 +249,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
         isLogin = StateUtils.isLogin();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+
 
     public void deleteMusicParams(String url,final Long user_id,final Long music_id,final int position){
         mQueue = Volley.newRequestQueue(this);
@@ -305,4 +300,13 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
         }
         return delete_status;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(loginReceiver!=null){
+            unregisterReceiver(loginReceiver);
+        }
+    }
+
 }
