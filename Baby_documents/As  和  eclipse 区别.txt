@@ -1,0 +1,29 @@
+eclipse  和   android Studio   区别
+
+1.IDE界面：
+    a.Android Studio提供的dock留边停靠完胜eclipse,Android Studio是将常用的view最小化dock到其边界，更加人性化，已操作和灵活。
+    b.eclipse的启动速度很漫长。
+    c.还有eclipse的死机问题非常严重,经常因为eclipse死机的问题来重启。
+
+
+2.项目编码：
+    a.inspect code,利用android lit可以帮助开发者自动检查代码中的错误和有可能出现bug的地方。
+    b.在Android Studio中code assistance要远远强大于eclipse，比如你可以先调用方法，再写方法时会有提示，而在eclipse中只能自己写，没有提示。
+
+
+3.res资源：
+    a.Android studio中的颜色等都在每行最开始表示，使开发者更加可视化了自己的界面，程序等，这是Android Studio的最大亮点。
+    b.在代码中可以看到资源中不同分辨率下的drawable图像，由于是在本环境中打开，而不是像eclipse中重启程序打开，所以打开图像的速度远远小于eclipse。
+    c.生成res的values文件更简单，不像eclipse那么复杂。
+    d.提示更加完善，比如如果将Button拼成Bitton，Android Studio会自动检查出来。
+    e.在android Studio中提供了一个Preview视图，可以和layout.xml文件进行关联，在xml文件中改属性，或添加组件，会动态在Preview视图中表现出来，而且可以添加不同语系，不同屏幕尺寸的android设备。
+
+    综上所述 ，我觉得 android Studio 比 eclipse 更适合用于 android开发。
+
+
+
+
+
+
+
+
