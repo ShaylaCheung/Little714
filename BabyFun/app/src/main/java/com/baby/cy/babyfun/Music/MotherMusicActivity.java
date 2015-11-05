@@ -26,41 +26,25 @@ import butterknife.ButterKnife;
 public class MotherMusicActivity extends AppCompatActivity {
 
     @Bind(R.id.mother_music_toolbar) Toolbar toolbar;
-
-
-    @Bind(R.id.mother_pull_to_refresh) PullToRefreshView pullToRefreshView;
     @Bind(R.id.mother_listview) ListView listView;
+
 
     private String music_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music";
     private List<String> music_name_list = new ArrayList<String>();
+    private MotherListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mother_music_layout);
-
+        setContentView(R.layout.music_mother_layout);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
-        toolbar.setTitle("妈妈摇篮曲");
+        getSupportActionBar().setTitle("妈妈摇篮曲");
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MotherMusicActivity.this.finish();
-            }
-        });
-
-
-        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                pullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pullToRefreshView.setRefreshing(false);
-                    }
-                }, 1000);
             }
         });
 
@@ -85,7 +69,7 @@ public class MotherMusicActivity extends AppCompatActivity {
     }
 
     public void initMotherMusicList(){
-        MotherListViewAdapter adapter = new MotherListViewAdapter(MotherMusicActivity.this,R.layout.listview_item_layout,music_name_list);
+        adapter = new MotherListViewAdapter(MotherMusicActivity.this,R.layout.listview_item_layout,music_name_list);
 
         //添加并且显示
         listView.setAdapter(adapter);
@@ -118,6 +102,10 @@ public class MotherMusicActivity extends AppCompatActivity {
                                 File file = new File(music_path+"/"+music_name+".amr");
                                 Log.d("Toamto",music_path+"/"+music_name+".amr");
                                 file.delete();
+                                //删除成功
+                                music_name_list.remove(position);//选择行的位置
+                                adapter.notifyDataSetChanged();
+                                listView.invalidate();
                             }
                         })
                         .setNegativeButton("返回", new DialogInterface.OnClickListener() {

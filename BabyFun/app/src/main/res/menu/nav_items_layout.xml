@@ -3,19 +3,27 @@
     <group android:checkableBehavior="all">
         <item
             android:id="@+id/navItem1"
-            android:icon="@drawable/nav_item_1"
-            android:title="设置"/>
-        <item
-            android:id="@+id/navItem2"
-            android:icon="@drawable/nav_item_2"
+            android:icon="@android:drawable/ic_btn_speak_now"
             android:title="录制新曲"/>
         <item
+            android:id="@+id/navItem2"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="发现摇篮曲"/>
+        <item
             android:id="@+id/navItem3"
-            android:icon="@drawable/nav_item_3"
-            android:title="本地歌曲"/>
+            android:icon="@android:drawable/ic_menu_crop"
+            android:title="妈妈摇篮曲"/>
         <item
             android:id="@+id/navItem4"
-            android:icon="@drawable/nav_item_4"
+            android:icon="@android:drawable/ic_lock_silent_mode_off"
+            android:title="播放列表"/>
+        <item
+            android:id="@+id/navItem5"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="设置"/>
+        <item
+            android:id="@+id/navItem6"
+            android:icon="@android:drawable/ic_menu_set_as"
             android:title="退出登录"/>
     </group>
 </menu>

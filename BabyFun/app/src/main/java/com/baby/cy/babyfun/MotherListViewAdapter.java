@@ -24,7 +24,9 @@ public class MotherListViewAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         String music_name = getItem(position);
+        int music_count = position + 1;
         View view ;
         ViewHolder viewHolder;
         if(convertView==null){
@@ -41,7 +43,7 @@ public class MotherListViewAdapter extends ArrayAdapter<String> {
 
         viewHolder.listview_music_name.setText(music_name);
         viewHolder.listview_singer_name.setText(null);
-        viewHolder.listview_music_id.setText(1+"");
+        viewHolder.listview_music_id.setText(music_count+"");
         return view;
 
     }

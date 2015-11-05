@@ -47,9 +47,7 @@ import butterknife.ButterKnife;
 public class FindMusicActivity extends AppCompatActivity implements LoginReceiver.OnLoginListener{
 
     @Bind(R.id.find_music_toolbar)Toolbar toolbar;
-    @Bind(R.id.pull_to_refresh) PullToRefreshView pullToRefreshView;
     @Bind(R.id.find_listView) SwipeMenuListView listView;
-
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
 
@@ -63,10 +61,10 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music_find_layout);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("发现摇篮曲");
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("发现摇篮曲");
+//        toolbar.setTitle("发现摇篮曲");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,22 +72,9 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
             }
         });
 
-
-        //下拉刷新
-        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                pullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pullToRefreshView.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
-
         //判断当前的登录状态
         isLogin = StateUtils.isLogin();
+        user_id = StateUtils.getUser_id();
 
         getMusicParams(URLUtils.find_music_url);
 
@@ -104,7 +89,6 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
         intentFilter.addAction(LoginReceiver.ON_LOGIN_FINISH);
         //注册广播接收器
         this.registerReceiver(loginReceiver, intentFilter);
-
 
 
 
@@ -146,6 +130,7 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
                 downloadItem.setWidth(300);
                 downloadItem.setTitle("添加");
                 downloadItem.setTitleSize(18);
+                downloadItem.setIcon(android.R.drawable.btn_star_big_on);
                 downloadItem.setTitleColor(Color.WHITE);
                 menu.addMenuItem(downloadItem);
 
@@ -164,7 +149,8 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
                             MusicInfos music = musicList.get(position);
                             Long music_id = music.getId();
                             Log.d("Tomato", music_id + "");
-                            addUserMusicParams(URLUtils.addUserMusic_url, user_id, music_id);
+                            //先判断欲添加的歌曲是否在列表中
+                            isInPlayListParams(URLUtils.isInPlayList_url, user_id, music_id);
                         } else {
                             //用户还未登陆
                             new AlertDialog.Builder(FindMusicActivity.this)
@@ -192,28 +178,6 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
             }
         });
 
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new AlertDialog.Builder(FindMusicActivity.this).setTitle("删除")
-                        .setMessage("您确定删除该歌曲？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "exit");
-                            }
-                        })
-                        .setNegativeButton("返回", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "no exit");
-//                                        finish();
-                            }
-                        }).show();
-                return false;
-            }
-        });
     }
 
 
@@ -269,11 +233,67 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        boolean addMusic_status = parseUserJson(response);
+                        Log.d("Tomato","user_id"+user_id);
+                        Log.d("Tomato", "response:" + response);
+//                        isInPlayListParams(URLUtils.isInPlayList_url, user_id, music_id);
+                        boolean addMusic_status = parseAddUserMusicJson(response);
                         if(addMusic_status){
-                            Toast.makeText(getApplicationContext(),"添加成功",Toast.LENGTH_SHORT).show();
+                            //添加成功
+                            Toast.makeText(FindMusicActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(getApplicationContext(),"添加失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FindMusicActivity.this,"添加失败",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Tomato", error.getMessage(), error);
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> data = new HashMap<String, String>();
+                data.put("user_id", user_id.toString());
+                data.put("music_id", music_id.toString());
+                return data;
+            }
+
+        };
+        mQueue.add(stringRequest);
+
+    }
+
+
+    public boolean parseAddUserMusicJson(String response){
+
+        boolean addMusic_status = false;
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            addMusic_status = jsonObject.getBoolean("addMusic_status");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return addMusic_status;
+    }
+
+
+    public void isInPlayListParams(String url, final Long user_id, final Long music_id){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean isInPlayList = parseIsInPlayListJson(response);
+                        Log.d("Tomato",response);
+                        if(isInPlayList){
+                            //已存在播放列表中
+                            Toast.makeText(FindMusicActivity.this,"您已将该曲添加至播放列表",Toast.LENGTH_SHORT).show();
+                        }else{
+                            addUserMusicParams(URLUtils.addUserMusic_url, user_id, music_id);
                         }
                     }
                 },
@@ -299,16 +319,17 @@ public class FindMusicActivity extends AppCompatActivity implements LoginReceive
     }
 
 
-    public boolean parseUserJson(String response){
+    public boolean parseIsInPlayListJson(String response){
 
-        boolean addMusic_status = false;
+        boolean isInPlayList = false;
         try{
             JSONObject jsonObject = new JSONObject(response);
-            addMusic_status = jsonObject.getBoolean("addMusic_status");
+            isInPlayList = jsonObject.getBoolean("isInPlay");
+            Log.d("Tomato","isIn:"+isInPlayList);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return addMusic_status;
+        return isInPlayList;
     }
 
     @Override

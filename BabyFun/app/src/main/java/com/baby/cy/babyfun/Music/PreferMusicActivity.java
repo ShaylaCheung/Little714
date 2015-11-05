@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,8 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.baby.cy.babyfun.Bean.MusicInfos;
-import com.baby.cy.babyfun.ListViewAdapter;
 import com.baby.cy.babyfun.LoginReceiver;
+import com.baby.cy.babyfun.PreferListAdapter;
 import com.baby.cy.babyfun.R;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -31,7 +33,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
     @Bind(R.id.local_music_toolbar)Toolbar toolbar;
     @Bind(R.id.local_listView) SwipeMenuListView listView;
+    @Bind(R.id.play_layout) CoordinatorLayout play_layout ;
 
     private List<MusicInfos> musicList;
     public RequestQueue mQueue;
@@ -53,19 +55,18 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
     private LoginReceiver loginReceiver ;
     private IntentFilter intentFilter ;
     private boolean isLogin = false;
+    private PreferListAdapter adapter;
+    private boolean isDeleteSuccess = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.music_local_layout);
-
-
+        setContentView(R.layout.music_play_layout);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("播放列表");
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("播放列表");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +96,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
             getMusicParams(URLUtils.prefer_music_url,user_id);
         }else{
             new AlertDialog.Builder(PreferMusicActivity.this)
-                    .setTitle("添加歌曲失败")
+                    .setTitle("获取播放列表失败")
                     .setMessage("您还未登录，请先登录？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -107,7 +108,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            play_layout.setBackgroundResource(R.drawable.play_unlogin_bg);
                         }
                     })
                     .show();
@@ -118,7 +119,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
 
     public void initListView(){
-        ListViewAdapter adapter = new ListViewAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
+        adapter = new PreferListAdapter(PreferMusicActivity.this,R.layout.listview_item_layout,musicList);
 
         //添加并且显示
         listView.setAdapter(adapter);
@@ -143,14 +144,15 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
 
             @Override
             public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem downloadItem = new SwipeMenuItem(getApplicationContext());
-                downloadItem.setBackground(R.color.listview_delete);
-                downloadItem.setWidth(300);
-                downloadItem.setTitle("删除");
-                downloadItem.setTitleSize(18);
-                downloadItem.setTitleColor(Color.WHITE);
-                menu.addMenuItem(downloadItem);
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+                deleteItem.setBackground(R.color.listview_delete);
+                deleteItem.setWidth(300);
+                deleteItem.setTitle("删除");
+                deleteItem.setIcon(android.R.drawable.ic_menu_delete);
+                deleteItem.setTitleSize(18);
+                deleteItem.setTitleColor(Color.WHITE);
+                menu.addMenuItem(deleteItem);
             }
         };
         listView.setMenuCreator(creator);
@@ -161,7 +163,7 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
                 switch (index) {
                     case 0:
                         Long music_id = musicList.get(position).getId();
-                        deleteMusicParams(URLUtils.deleteUserMusic_url,user_id,music_id);
+                        deleteMusicParams(URLUtils.deleteUserMusic_url, user_id, music_id, position);
                         break;
                 }
                 return false;
@@ -177,23 +179,17 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "exit");
                                 Long music_id = musicList.get(position).getId();
-                                deleteMusicParams(URLUtils.deleteUserMusic_url, user_id, music_id);
-                                if () {
-                                    listItem.remove(position);//选择行的位置
-                                    listItemAdapter.notifyDataSetChanged();
-                                    list.invalidate();
-                                }
+                                deleteMusicParams(URLUtils.deleteUserMusic_url, user_id, music_id,position);
                             }
                         })
                         .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Tomato", "no exit");
+
                             }
                         }).show();
-                return false;
+                return true;
             }
         });
     }
@@ -253,19 +249,26 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
         isLogin = StateUtils.isLogin();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
-    public void deleteMusicParams(String url,final Long user_id,final Long music_id){
+
+    public void deleteMusicParams(String url,final Long user_id,final Long music_id,final int position){
         mQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        boolean delete_status = parseDeleteMusicJson(response);
-
+                        //得到删除的结果---true为删除成功
+                        isDeleteSuccess = parseDeleteMusicJson(response);
+                        Log.d("Tomato","url:"+URLUtils.deleteUserMusic_url);
+                        Log.d("Tomato",isDeleteSuccess+"");
+                        if (isDeleteSuccess) {
+                            //删除成功
+                            musicList.remove(position);//选择行的位置
+                            adapter.notifyDataSetChanged();
+                            listView.invalidate();
+                        } else {
+                            Toast.makeText(PreferMusicActivity.this,"删除失败",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -297,4 +300,13 @@ public class PreferMusicActivity extends AppCompatActivity implements LoginRecei
         }
         return delete_status;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(loginReceiver!=null){
+            unregisterReceiver(loginReceiver);
+        }
+    }
+
 }
